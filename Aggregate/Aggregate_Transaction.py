@@ -34,52 +34,55 @@ for state in Agg_tran_list:
                 column["Quarters"].append(int(file.strip(".json")))
 
 Aggregate_Transaction = pd.DataFrame(column)
-     
 
+Aggregate_Transaction["States"] = Aggregate_Transaction["States"].str.replace("andaman-&-nicobar-islands","Andaman & Nicobar")
+Aggregate_Transaction["States"] = Aggregate_Transaction["States"].str.replace("-"," ")
+Aggregate_Transaction["States"] = Aggregate_Transaction["States"].str.title()
+Aggregate_Transaction["States"] = Aggregate_Transaction["States"].str.replace("Dadra & Nagar Haveli & Daman & Diu","Dadra and Nagar Haveli and Daman and Diu")
      
 # Aggregate_Transaction table insertion to sql
-#--------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
 
-# drop = '''drop table if exists Aggregate_Transaction'''
-# curs.execute(drop)
-# posg.commit()
+drop = '''drop table if exists Aggregate_Transaction'''
+curs.execute(drop)
+posg.commit()
 
-# try:
-#     query = '''Create table if not Exists Aggregate_transaction(
-#                                             States varchar(100),
-#                                             Years int,
-#                                             Quarters int,
-#                                             Transaction_type varchar(30),
-#                                             Transaction_count bigint,
-#                                             Transaction_amount bigint)'''
-#     curs.execute(query)
-#     posg.commit()
-# except:
-#     print("Aggregate_Transaction Table Already Created")
+try:
+    query = '''Create table if not Exists Aggregate_transaction(
+                                            States varchar(100),
+                                            Years int,
+                                            Quarters int,
+                                            Transaction_type varchar(30),
+                                            Transaction_count bigint,
+                                            Transaction_amount bigint)'''
+    curs.execute(query)
+    posg.commit()
+except:
+    print("Aggregate_Transaction Table Already Created")
 
-# for index,row in Aggregate_Transaction.iterrows():
-#     query = '''insert into Aggregate_Transaction(
-#                                             States,
-#                                             Years,
-#                                             Quarters,
-#                                             Transaction_type,
-#                                             Transaction_count,
-#                                             Transaction_amount )
+for index,row in Aggregate_Transaction.iterrows():
+    query = '''insert into Aggregate_Transaction(
+                                            States,
+                                            Years,
+                                            Quarters,
+                                            Transaction_type,
+                                            Transaction_count,
+                                            Transaction_amount )
                                                     
-#                 values(%s,%s,%s,%s,%s,%s)'''
+                values(%s,%s,%s,%s,%s,%s)'''
     
-#     values = (row['States'],
-#                 row["Years"],
-#                 row["Quarters"],
-#                 row["Transaction_type"],
-#                 row["Transaction_count"],
-#                 row["Transaction_amount"])
+    values = (row['States'],
+                row["Years"],
+                row["Quarters"],
+                row["Transaction_type"],
+                row["Transaction_count"],
+                row["Transaction_amount"])
         
-#     try:
-#         curs.execute(query,values)
-#         posg.commit()
-#     except:
-#         print("Aggregate_Transaction Details Already Inserted")
+    try:
+        curs.execute(query,values)
+        posg.commit()
+    except:
+        print("Aggregate_Transaction Details Already Inserted")
 
 
      

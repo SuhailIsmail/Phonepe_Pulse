@@ -33,61 +33,66 @@ for state in map_tran_lst:
                     column2["Quarter"].append(int(file.strip(".json")))
             
 map_tran_lst = pd.DataFrame(column2)
+
+map_tran_lst["States"] = map_tran_lst["States"].str.replace("andaman-&-nicobar-islands","Andaman & Nicobar")
+map_tran_lst["States"] = map_tran_lst["States"].str.replace("-"," ")
+map_tran_lst["States"] = map_tran_lst["States"].str.title()
+map_tran_lst["States"] = map_tran_lst["States"].str.replace("Dadra & Nagar Haveli & Daman & Diu","Dadra and Nagar Haveli and Daman and Diu")
             
 # Map_Transaction table insertion to sql
 
-# posg = ps.connect(
-#     host = "localhost",
-#     user = "postgres",
-#     password = "root3",
-#     database = "Phonepe_Pulse",
-#     port = "5432"
-# )
+posg = ps.connect(
+    host = "localhost",
+    user = "postgres",
+    password = "root3",
+    database = "Phonepe_Pulse",
+    port = "5432"
+)
 
-# curs = posg.cursor()
+curs = posg.cursor()
 
-# drop = '''drop table if exists Map_Transaction'''
-# curs.execute(drop)
-# posg.commit()
+drop = '''drop table if exists Map_Transaction'''
+curs.execute(drop)
+posg.commit()
 
 
 
-# try:
-#     query = '''Create table if not Exists Map_Transaction(
-#                                             States varchar(100),
-#                                             Years int,
-#                                             Quarter int,
-#                                             Districts varchar(100),
-#                                             Amount bigint,
-#                                             Transaction_count bigint)'''
-#     curs.execute(query)
-#     posg.commit()
-# except:
-#     print("Map_Transaction Table Already Created")
+try:
+    query = '''Create table if not Exists Map_Transaction(
+                                            States varchar(100),
+                                            Years int,
+                                            Quarter int,
+                                            Districts varchar(100),
+                                            Amount bigint,
+                                            Transaction_count bigint)'''
+    curs.execute(query)
+    posg.commit()
+except:
+    print("Map_Transaction Table Already Created")
 
-# for index,row in map_tran_lst.iterrows():
-#     query = '''insert into Map_Transaction(
-#                                             States,
-#                                             Years,
-#                                             Quarter,
-#                                             Districts,
-#                                             Amount,
-#                                             Transaction_count )
+for index,row in map_tran_lst.iterrows():
+    query = '''insert into Map_Transaction(
+                                            States,
+                                            Years,
+                                            Quarter,
+                                            Districts,
+                                            Amount,
+                                            Transaction_count )
                                                     
-#                 values(%s,%s,%s,%s,%s,%s)'''
+                values(%s,%s,%s,%s,%s,%s)'''
     
-#     values = (row['States'],
-#                 row["Years"],
-#                 row["Quarter"],
-#                 row["Districts"],
-#                 row["Amount"],
-#                 row["Transaction_count"])
+    values = (row['States'],
+                row["Years"],
+                row["Quarter"],
+                row["Districts"],
+                row["Amount"],
+                row["Transaction_count"])
         
-#     try:
-#         curs.execute(query,values)
-#         posg.commit()
-#     except:
-#         print("Map_Transaction Details Already Inserted")
+    try:
+        curs.execute(query,values)
+        posg.commit()
+    except:
+        print("Map_Transaction Details Already Inserted")
 
 
             

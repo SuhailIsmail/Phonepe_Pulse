@@ -34,3 +34,63 @@ for state in map_user_lst:
                 column3["Quarter"].append(int(file.strip(".json")))
 
 map_user_lst = pd.DataFrame(column3)
+
+map_user_lst["States"] = map_user_lst["States"].str.replace("andaman-&-nicobar-islands","Andaman & Nicobar")
+map_user_lst["States"] = map_user_lst["States"].str.replace("-"," ")
+map_user_lst["States"] = map_user_lst["States"].str.title()
+map_user_lst["States"] = map_user_lst["States"].str.replace("Dadra & Nagar Haveli & Daman & Diu","Dadra and Nagar Haveli and Daman and Diu")
+
+# Map_User table insertion to sql
+
+posg = ps.connect(
+    host = "localhost",
+    user = "postgres",
+    password = "root3",
+    database = "Phonepe_Pulse",
+    port = "5432"
+)
+
+curs = posg.cursor()
+
+drop = '''drop table if exists Map_User'''
+curs.execute(drop)
+posg.commit()
+
+
+
+try:
+    query = '''Create table if not Exists Map_User(
+                                            States varchar(100),
+                                            Years varchar(10),
+                                            Quarter varchar(10),
+                                            Districts varchar(100),
+                                            registeredUsers bigint,
+                                            appOpens bigint)'''
+    curs.execute(query)
+    posg.commit()
+except:
+    print("Map_User Table Already Created")
+
+for index,row in map_user_lst.iterrows():
+    query = '''insert into Map_User(
+                                            States,
+                                            Years,
+                                            Quarter,
+                                            Districts,
+                                            registeredUsers,
+                                            appOpens )
+                                                    
+                values(%s,%s,%s,%s,%s,%s)'''
+    
+    values = (row['States'],
+                row["Years"],
+                row["Quarter"],
+                row["Districts"],
+                row["registeredUsers"],
+                row["appOpens"])
+        
+    try:
+        curs.execute(query,values)
+        posg.commit()
+    except:
+        print("Map_User Details Already Inserted")
