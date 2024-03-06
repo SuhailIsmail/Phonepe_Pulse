@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from imports import *
 
 def Y_year(df,year):
@@ -211,7 +211,7 @@ def map_insure_plot_2(df,state):
 
 
     
-=======
+
 from imports import *
 
 def Y_year(df,year):
@@ -421,4 +421,3 @@ def map_insure_plot_2(df,state):
                               hole=0.5,  color_discrete_sequence= px.colors.sequential.Oranges_r)
         
         st.plotly_chart(fig_map_pie_1)
->>>>>>> 22caaa4fa472436115b5648e25f845b3ee187730

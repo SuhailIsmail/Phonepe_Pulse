@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from imports import *
 from Conn_sql import *
 from Query import *
@@ -154,7 +154,7 @@ if selected == "Explore Data":
   
                 
 
-=======
+
 from imports import *
 from Conn_sql import *
 from Query import *
@@ -304,11 +304,4 @@ if selected == "Explore Data":
 
             df_top_user_Y= top_user_plot_1(Top_user,years_t3)
 
-            
-
-
-  
-                
-
->>>>>>> 22caaa4fa472436115b5648e25f845b3ee187730
             
