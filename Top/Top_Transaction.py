@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #Top_Transaction 
 
 from imports import *
