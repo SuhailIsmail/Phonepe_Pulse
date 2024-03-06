@@ -10,3 +10,4 @@ posg = ps.connect(
     database = "Phonepe_Pulse",
     port = "5432"
 )
+curs = posg.cursor()

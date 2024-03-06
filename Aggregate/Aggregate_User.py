@@ -50,7 +50,15 @@ Aggregate_User["States"] = Aggregate_User["States"].str.replace("Dadra & Nagar H
 
 # Aggregate_User table insertion to sql
 #-----------------------------------------------------------------------------------
+posg = ps.connect(
+    host = "localhost",
+    user = "postgres",
+    password = "root3",
+    database = "Phonepe_Pulse",
+    port = "5432"
+)
 
+curs = posg.cursor()
 drop = '''drop table if exists Aggregate_User'''
 curs.execute(drop)
 posg.commit()

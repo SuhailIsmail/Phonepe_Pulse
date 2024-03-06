@@ -43,6 +43,15 @@ Aggregate_Transaction["States"] = Aggregate_Transaction["States"].str.replace("D
 # Aggregate_Transaction table insertion to sql
 # --------------------------------------------------------------------------------
 
+posg = ps.connect(
+    host = "localhost",
+    user = "postgres",
+    password = "root3",
+    database = "Phonepe_Pulse",
+    port = "5432"
+)
+
+curs = posg.cursor()
 drop = '''drop table if exists Aggregate_Transaction'''
 curs.execute(drop)
 posg.commit()
