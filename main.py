@@ -89,6 +89,10 @@ if selected == "Explore Data":
 
             df_agg_tran_Y_Q = Q_yearQ(df_agg_tran_Y, quarters_at)
 
+            state_Y_Q= st.selectbox("**Select the State**",df_agg_tran_Y_Q["States"].unique())
+
+            Aggre_Transaction_type(df_agg_tran_Y_Q,state_Y_Q)
+
 
         elif method == "User Analysis":
             year_au= st.selectbox("Select the Year_AU",Aggre_user["Years"].unique())
@@ -96,6 +100,9 @@ if selected == "Explore Data":
 
             quarter_au= st.selectbox("Select the Quarter_AU",agg_user_Y["Quarter"].unique())
             agg_user_Y_Q= Aggre_user_plot_2(agg_user_Y,quarter_au)
+
+            state_au= st.selectbox("**Select the State_AU**",agg_user_Y["States"].unique())
+            Aggre_user_plot_3(agg_user_Y_Q,state_au)
 
 
     with tab2:
@@ -136,7 +143,7 @@ if selected == "Explore Data":
             col1,col2= st.columns(2)
             with col1:
                 years_t2= st.slider("**Select the Year_tt**", Top_transaction["Years"].min(), Top_transaction["Years"].max(),Top_transaction["Years"].min())
- 
+                years_m2= st.slider("**Select the Year_mi**", Map_transaction["Years"].min(), Map_transaction["Years"].max(),Map_transaction["Years"].min())
             df_top_tran_Y= Y_year(Top_transaction,years_t2)
 
             
@@ -148,7 +155,6 @@ if selected == "Explore Data":
 
             df_top_user_Y= top_user_plot_1(Top_user,years_t3)
 
+
             
-
-
-  
+        

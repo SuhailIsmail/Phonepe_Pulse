@@ -50,55 +50,55 @@ Aggregate_User["States"] = Aggregate_User["States"].str.replace("Dadra & Nagar H
 
 # Aggregate_User table insertion to sql
 #-----------------------------------------------------------------------------------
-posg = ps.connect(
-    host = "localhost",
-    user = "postgres",
-    password = "root3",
-    database = "Phonepe_Pulse",
-    port = "5432"
-)
+# posg = ps.connect(
+#     host = "localhost",
+#     user = "postgres",
+#     password = "root3",
+#     database = "Phonepe_Pulse",
+#     port = "5432"
+# )
 
-curs = posg.cursor()
-drop = '''drop table if exists Aggregate_User'''
-curs.execute(drop)
-posg.commit()
+# curs = posg.cursor()
+# drop = '''drop table if exists Aggregate_User'''
+# curs.execute(drop)
+# posg.commit()
 
 
-try:
-    query = '''Create table if not Exists Aggregate_User(
-                                            States varchar(100),
-                                            Years int,
-                                            Quarter int,
-                                            Brands varchar(50),
-                                            Transaction_count bigint,
-                                            Percentage bigint)'''
-    curs.execute(query)
-    posg.commit()
-except:
-    print("Aggregate_User Table Already Created")
+# try:
+#     query = '''Create table if not Exists Aggregate_User(
+#                                             States varchar(100),
+#                                             Years int,
+#                                             Quarter int,
+#                                             Brands varchar(50),
+#                                             Transaction_count bigint,
+#                                             Percentage bigint)'''
+#     curs.execute(query)
+#     posg.commit()
+# except:
+#     print("Aggregate_User Table Already Created")
 
-for index,row in Aggregate_User.iterrows():
-    query = '''insert into Aggregate_User(
-                                            States,
-                                            Years,
-                                            Quarter,
-                                            Brands,
-                                            Transaction_count,
-                                            Percentage )
+# for index,row in Aggregate_User.iterrows():
+#     query = '''insert into Aggregate_User(
+#                                             States,
+#                                             Years,
+#                                             Quarter,
+#                                             Brands,
+#                                             Transaction_count,
+#                                             Percentage )
                                                     
-                values(%s,%s,%s,%s,%s,%s)'''
+#                 values(%s,%s,%s,%s,%s,%s)'''
     
-    values = (row['States'],
-                row["Years"],
-                row["Quarter"],
-                row["Brands"],
-                row["Transaction_count"],
-                row["Percentage"])
+#     values = (row['States'],
+#                 row["Years"],
+#                 row["Quarter"],
+#                 row["Brands"],
+#                 row["Transaction_count"],
+#                 row["Percentage"])
         
-    try:
-        curs.execute(query,values)
-        posg.commit()
-    except:
-        print("Aggregate_User Details Already Inserted")
+#     try:
+#         curs.execute(query,values)
+#         posg.commit()
+#     except:
+#         print("Aggregate_User Details Already Inserted")
 
 

@@ -43,57 +43,57 @@ Top_tran_lst["States"] = Top_tran_lst["States"].str.replace("Dadra & Nagar Havel
 
 # Top_Transaction table insertion to sql
 
-posg = ps.connect(
-    host = "localhost",
-    user = "postgres",
-    password = "root3",
-    database = "Phonepe_Pulse",
-    port = "5432"
-)
+# posg = ps.connect(
+#     host = "localhost",
+#     user = "postgres",
+#     password = "root3",
+#     database = "Phonepe_Pulse",
+#     port = "5432"
+# )
 
-curs = posg.cursor()
+# curs = posg.cursor()
 
-drop = '''drop table if exists Top_Transaction'''
-curs.execute(drop)
-posg.commit()
+# drop = '''drop table if exists Top_Transaction'''
+# curs.execute(drop)
+# posg.commit()
 
 
 
-try:
-    query = '''Create table if not Exists Top_Transaction(
-                                            States varchar(100),
-                                            Years varchar(10),
-                                            Quarter varchar(10),
-                                            Districts varchar(100),
-                                            Amount bigint,
-                                            Transaction_count bigint)'''
-    curs.execute(query)
-    posg.commit()
-except:
-    print("Top_Transaction Table Already Created")
+# try:
+#     query = '''Create table if not Exists Top_Transaction(
+#                                             States varchar(100),
+#                                             Years int,
+#                                             Quarter int,
+#                                             Districts varchar(100),
+#                                             Amount bigint,
+#                                             Transaction_count bigint)'''
+#     curs.execute(query)
+#     posg.commit()
+# except:
+#     print("Top_Transaction Table Already Created")
 
-for index,row in Top_tran_lst.iterrows():
-    query = '''insert into Top_Transaction(
-                                            States,
-                                            Years,
-                                            Quarter,
-                                            Districts,
-                                            Amount,
-                                            Transaction_count )
+# for index,row in Top_tran_lst.iterrows():
+#     query = '''insert into Top_Transaction(
+#                                             States,
+#                                             Years,
+#                                             Quarter,
+#                                             Districts,
+#                                             Amount,
+#                                             Transaction_count )
                                                     
-                values(%s,%s,%s,%s,%s,%s)'''
+#                 values(%s,%s,%s,%s,%s,%s)'''
     
-    values = (row['States'],
-                row["Years"],
-                row["Quarter"],
-                row["Districts"],
-                row["Amount"],
-                row["Transaction_count"])
+#     values = (row['States'],
+#                 row["Years"],
+#                 row["Quarter"],
+#                 row["Districts"],
+#                 row["Amount"],
+#                 row["Transaction_count"])
         
-    try:
-        curs.execute(query,values)
-        posg.commit()
-    except:
-        print("Top_Transaction Details Already Inserted")
+#     try:
+#         curs.execute(query,values)
+#         posg.commit()
+#     except:
+#         print("Top_Transaction Details Already Inserted")
 
 

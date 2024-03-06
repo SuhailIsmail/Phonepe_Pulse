@@ -19,6 +19,36 @@ def Y_year(df,year):
         fig_count= px.bar(aiyg, x="States", y= "Transaction_count",title= f"{year} TRANSACTION COUNT",
                           width=600, height= 650, color_discrete_sequence=px.colors.sequential.Bluered_r)
         st.plotly_chart(fig_count)
+
+    col1,col2= st.columns(2)
+    with col1:
+
+        url= "https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson"
+        response= requests.get(url)
+        data1= json.loads(response.content)
+        states_name_tra= [feature["properties"]["ST_NM"] for feature in data1["features"]]
+        states_name_tra.sort()
+        
+
+        fig_india_1= px.choropleth(aiyg, geojson= data1, locations= "States", featureidkey= "properties.ST_NM",
+                                 color= "Transaction_amount", color_continuous_scale= "tealrose",
+                                 range_color= (aiyg["Transaction_amount"].min(),aiyg["Transaction_amount"].max()),
+                                 hover_name= "States",title = f"{year} TRANSACTION AMOUNT",
+                                 fitbounds= "locations",width =600, height= 600)
+        fig_india_1.update_geos(visible =False)
+        
+        st.plotly_chart(fig_india_1)
+
+    with col2:
+
+        fig_india_2= px.choropleth(aiyg, geojson= data1, locations= "States", featureidkey= "properties.ST_NM",
+                                 color= "Transaction_count", color_continuous_scale= "tempo",
+                                 range_color= (aiyg["Transaction_count"].min(),aiyg["Transaction_count"].max()),
+                                 hover_name= "States",title = f"{year} TRANSACTION COUNT",
+                                 fitbounds= "locations",width =600, height= 600)
+        fig_india_2.update_geos(visible =False)
+        
+        st.plotly_chart(fig_india_2)      
     return aiy
 
 
@@ -43,6 +73,34 @@ def Q_yearQ(df,quarter):
                             title= f"{aiyq['Years'].min()} AND {quarter} TRANSACTION COUNT",width= 600, height=650,
                             color_discrete_sequence=px.colors.sequential.Cividis_r)
         st.plotly_chart(fig_q_count)
+    
+    col1,col2= st.columns(2)
+    with col1:
+
+        url= "https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson"
+        response= requests.get(url)
+        data1= json.loads(response.content)
+        states_name_tra= [feature["properties"]["ST_NM"] for feature in data1["features"]]
+        states_name_tra.sort()
+
+        fig_india_1= px.choropleth(aiyqg, geojson= data1, locations= "States", featureidkey= "properties.ST_NM",
+                                 color= "Transaction_amount", color_continuous_scale= "tealrose",
+                                 range_color= (aiyqg["Transaction_amount"].min(),aiyqg["Transaction_amount"].max()),
+                                 hover_name= "States",title = f"{aiyq['Years'].min()} AND {quarter} TRANSACTION AMOUNT",
+                                 fitbounds= "locations",width =600, height= 600)
+        fig_india_1.update_geos(visible =False)
+        
+        st.plotly_chart(fig_india_1)
+    with col2:
+
+        fig_india_2= px.choropleth(aiyqg, geojson= data1, locations= "States", featureidkey= "properties.ST_NM",
+                                 color= "Transaction_count", color_continuous_scale= "tempo",
+                                 range_color= (aiyqg["Transaction_count"].min(),aiyqg["Transaction_count"].max()),
+                                 hover_name= "States",title = f"{aiyq['Years'].min()} AND {quarter} TRANSACTION COUNT",
+                                 fitbounds= "locations",width =600, height= 600)
+        fig_india_2.update_geos(visible =False)
+        
+        st.plotly_chart(fig_india_2)
     
     return aiyq
 
